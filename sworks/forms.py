@@ -2,7 +2,7 @@
 # модуль с формами
 from django import forms
 
-from sworks.models import Task, TaskType, WorkType
+from sworks.models import Task
 
 
 # форма добавления попытки
@@ -30,29 +30,10 @@ class AddTaskForm(forms.Form):
     task_name = forms.CharField(max_length=200,
                                 widget=forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': 'название задания'}),
                                 label="Название задания ")
-    # тип задания: программирование/эссе
-    task_type = forms.ModelChoiceField(queryset=TaskType.objects.all(), initial=0)
-    # тип работы: в классе/дома
-    work_type = forms.ModelChoiceField(queryset=WorkType.objects.all(), initial=0)
     # дата выдачи
     pub_date = forms.CharField(max_length=200,
                                widget=forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': ''}),
                                label="Дата опубликовая")
-    # список баллов на оценку 1
-    est1 = forms.CharField(max_length=200,
-                           widget=forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': ''}), label="Оценка 1")
-    # список баллов на оценку 2
-    est2 = forms.CharField(max_length=200,
-                           widget=forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': ''}), label="Оценка 2")
-    # список баллов на оценку 3
-    est3 = forms.CharField(max_length=200,
-                           widget=forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': ''}), label="Оценка 3")
-    # список баллов на оценку 4
-    est4 = forms.CharField(max_length=200,
-                           widget=forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': ''}), label="Оценка 4")
-    # список баллов на оценку 5
-    est5 = forms.CharField(max_length=200,
-                           widget=forms.Textarea(attrs={'rows': 1, 'cols': 40, 'placeholder': ''}), label="Оценка 5")
 
 
 # форма логина
@@ -81,14 +62,14 @@ class RegisterForm(forms.Form):
         widget=forms.PasswordInput(attrs={'rows': 1, 'cols': 20, 'placeholder': 'qwerty123'}),
         label="Повторите пароль")
     # класс
-    schooler_class = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': '10-3'}),
-                                     label="Класс")
+    github_rep = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': 'https://github.com/aoklyunin/csi-students'}),
+                                     label="Ссылка на github репозиторий")
     # группа
-    schooler_group = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': '1'}),
+    st_group = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': 'P4135'}),
                                      label="номер группы")
     # почта
     mail = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': 'example@gmail.com'}),
-                           label="Адрес электронной почты")
+                           label="Адрес эл. почты")
     # имя
     name = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': 'Иван'}), label="Имя")
     # фамилия

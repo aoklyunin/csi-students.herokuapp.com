@@ -37,7 +37,7 @@
          {% csrf_token %}
             {% bootstrap_field text_form.text %}
             {% buttons %}
-                <button type="submit" class="btn btn-primary" {%  if attempt.state == 2 or attempt.state == 3 %} disabled{% endif %}>
+                <button type="submit" class="btn btn-primary" >
                     {% bootstrap_icon "star" %} Отправить
                 </button>
             {%  endbuttons %}
@@ -47,7 +47,7 @@
             История сообщений:
         </div>
         <table class="table mytable">
-            {% for comment in attempt.comment.all %}
+            {% for comment in mark.comment.all %}
                 <tr>
                     <td>
 

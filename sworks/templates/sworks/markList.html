@@ -30,19 +30,19 @@
         <th>Проверить</th>
 
     </tr>
-    {% for attempt,mark in arr %}
+    {% for mark in mark_list %}
         <tr>
             <td class="namediv" >
-                {{ attempt.student.user.first_name }}
-                {{ attempt.student.user.last_name }}<br>
-                ({{ mark.m_value }})
+                {{ mark.student.user.first_name }}
+                {{ mark.student.user.last_name }}<br>
+                ({{mark.m_value }})
             </td>
             <td class="tasknamediv">
                 {{ attempt.task.task_name }} <br>
                 {{ attempt.task.pub_date }}
             </td>
             <td>
-                <a href={{ attempt.link }}  rel="external">Попытка</a>
+                <a href={{ mark.student.github_rep }}  rel="external">Гитхаб</a>
                 <script type="text/javascript">
                     $('a[rel=external]').attr('target', '_blank');
                 </script>

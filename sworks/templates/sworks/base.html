@@ -1,16 +1,25 @@
 <html>
 <head>
-<title>
-    {% block title %}My amazing site{% endblock %}
-</title>
+    <title>
+        {% block title %}My amazing site{% endblock %}
+    </title>
     <style>
         {% block style_block %}
 
         {%  endblock %}
+
+
+
+
     </style>
 
-<script src="../bootstrap/js/bootstrap.js"></script>
-<script src="../bootstrap/js/jquery.js"></script>
+    {% block script_block %}
+
+    {% endblock %}
+
+
+    <script src="/templates/bootstrap/js/bootstrap.js"></script>
+    <script src="/templates/bootstrap/js/jquery.js"></script>
 </head>
 
 {# Load the tag library #}
@@ -34,50 +43,47 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Информатика 239</a>
+            <a class="navbar-brand" href="/">ТАУ</a>
         </div>
-        <div class="navbar-collapse collapse">
-            {% if user.is_authenticated == False %}
-                <form class="navbar-form navbar-right" role="form" action="/../../." method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {% bootstrap_field login_form.username %}
-                    </div>
-                    <div class="form-group">
-                        {% bootstrap_field login_form.password %}
-                    </div>
-                    <button type="submit" class="btn btn-success">Вход</button>
 
-                </form>
-                <form class="navbar-form navbar-left" action="register/">
-                    <button class="btn btn-primary">Регистрация</button>
-                </form>
-            {% else %}
+        <div class="navbar-collapse collapse" id="main-menu">
+            <ul class="nav navbar-nav">
+                {% if user.is_authenticated%}
+                <li><a href="/olymp/list/" class="btn">Олимпиады</a></li>
+                {% if request.user.is_staff %}
+                <li><a href="/problem/list/" class="btn">Задания</a></li>
+                {% endif %}
+                {% ifnotequal isSpec 0%}
+                <li><a href="/work/list/" class="btn">Работы</a></li>
+                <li><a href="/work/load/" class="btn">Загрузить</a></li>
+                {% endifnotequal %}
+                {%endif%}
+            </ul>
 
-                <form class="navbar-form navbar-right" role="form" action="../../../logout/" method="post">
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated == False %}
+                <li>
+                    <form class="navbar-form" role="form" action="/../../." method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {% bootstrap_field login_form.username %}
+                        </div>
+                        <div class="form-group">
+                            {% bootstrap_field login_form.password %}
+                        </div>
+                        <button type="submit" class="btn">Вход</button>
+                    </form>
+                </li>
+                <li><a href="../../../register/" class="btn">Регистрация</a></li>
 
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-success">Выход</button>
-                </form>
-            {% endif %}
+                {% else %}
+                <li><a href="../../../logout/" class="btn">Выйти</a></li>
+                {% endif %}
+            </ul>
 
         </div><!--/.navbar-collapse -->
 
     </div>
-</div>
-
-<div class="container">
-    {% if messages %}
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                {% for message in messages %}
-                    <div {% if message.tags %} class="alert {{ message.tags }}" {% endif %}>
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
 </div>
 
 
@@ -85,10 +91,33 @@
 <div class="jumbotron">
     <div class="container">
 
- {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
+
 </div>
+
+<div class="btn-group btn-group-justified">
+    {% block navigating %}{% endblock %}
 </div>
- {% block sub_content %}{% endblock %}
+
+{% block error_messages %}
+<div class="container">
+    {% if messages %}
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert {{ message.tags }}" {% endif %}>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block sub_content %}{% endblock %}
 
 </body>
 

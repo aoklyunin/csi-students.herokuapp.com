@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -7,7 +8,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from sworks.forms import RegisterForm, LoginForm
-from sworks.models import Student
+from sworks.models import Student, Task, Mark
 
 
 # метод регистрации
@@ -23,8 +24,8 @@ def register(request):
                 # выводим сообщение и перезаполняем форму
                 messages.error(request, "пароли не совпадают")
                 data = {'username': form.cleaned_data["username"],
-                        'schooler_class': form.cleaned_data["schooler_class"],
-                        'schooler_group': form.cleaned_data["schooler_group"],
+                        'github_rep': form.cleaned_data["github_rep"],
+                        'st_group': form.cleaned_data["st_group"],
                         'mail': form.cleaned_data["mail"],
                         'name': form.cleaned_data["name"],
                         'second_name': form.cleaned_data["second_name"],
@@ -37,8 +38,8 @@ def register(request):
             else:
                 # получаем данные из формы
                 musername = form.cleaned_data["username"]
-                schooler_class = form.cleaned_data["schooler_class"]
-                schooler_group = form.cleaned_data["schooler_group"]
+                github_rep = form.cleaned_data["github_rep"]
+                st_group = form.cleaned_data["st_group"]
                 mmail = form.cleaned_data["mail"]
                 name = form.cleaned_data["name"]
                 second_name = form.cleaned_data["second_name"]
@@ -56,17 +57,20 @@ def register(request):
                         # созраняем пользователя
                         user.save()
                         # создаём студента
-                        s = Student.objects.create(user=user, st_klass=schooler_class, st_group=schooler_group)
+                        s = Student.objects.create(user=user, github_rep=github_rep, st_group=st_group)
                         # сохраняем студента
                         s.save()
+                        for t in Task.objects.all():
+                            Mark.objects.create(task=t, m_value=0, add_date=datetime.datetime.today(), state=0,
+                                                student=s)
                     return HttpResponseRedirect("/")
                 except:
                     # если не получилось создать пользователя, то выводим сообщение
                     messages.error(request, "Такой пользователь уже есть")
                     # заполняем дату формы
                     data = {'username': form.cleaned_data["username"],
-                            'schooler_class': form.cleaned_data["schooler_class"],
-                            'schooler_group': form.cleaned_data["schooler_group"],
+                            'github_rep': form.cleaned_data["github_rep"],
+                            'st_group': form.cleaned_data["st_group"],
                             'mail': form.cleaned_data["mail"],
                             'name': form.cleaned_data["name"],
                             'second_name': form.cleaned_data["second_name"],

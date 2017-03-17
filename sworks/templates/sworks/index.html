@@ -17,12 +17,14 @@
     {% if user.is_authenticated == False %}
         <p>Для доступа к системе Вам надо войти или зарегистрироваться</p>
     {% else %}
-        <p>Если Вы доделали задание, Вам надо добавить попытку в личном кабиненте</p>
-        <p><a class="btn btn-primary btn-lg" role="button" href="personal\">Личный кабинет »</a></p>
+        <p>О выполнении Ваших заданий можно написать в личном кабинете</p>
+
         {% if user.is_staff %}
-            <p><a class="btn btn-success btn-lg" role="button" href="attemptList\">Список попыток»</a></p>
+            <p><a class="btn btn-success btn-lg" role="button" href="attemptList\">Список заданий на проверку»</a></p>
             <p><a class="btn btn-success btn-lg" role="button" href="addTask\">Добавить задание»</a>
             <a class="btn btn-success btn-lg" role="button" href="..\..\marks\">Оценки»</a></p>
+        {% else %}
+            <p><a class="btn btn-primary btn-lg" role="button" href="personal\">Личный кабинет »</a></p>
         {%  endif %}
     {% endif %}
 {% endblock %}

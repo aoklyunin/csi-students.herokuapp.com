@@ -14,48 +14,65 @@
     {% if user.is_authenticated == False %}
         <br><br>
         <H1> Этот раздел Вам недоступен, необходимо войти</H1>
-        <br><br>
+
     {% else %}
-        <br><br>
-        <p><a class="btn btn-primary btn-lg" role="button" href="..\addAttempt\">Добавить попытку »</a></p>
     {% endif %}
 {% endblock %}
 
 {% block sub_content %}
     {% if user.is_authenticated == False %}
     {% else %}
-        <br><br>
+        <H2>Сумма: {{sum}}</H2>
         <table class="table">
-            {% for attempt in attempt_list %}
+            {% for mark in mark_list %}
                 <tr>
                     <td>
-                        {{ attempt.task.task_name }}<br>
-                        {% if  attempt.state == 0 %}
-                            <p class="muted">(Попытка не просмотрена)</p>
+                        {{ mark.task.task_name }}<br>
+                        {% if  mark.state == 0 %}
+                            <p class="muted">(Задание не отправлено на проверку)</p>
                         {% else %}
                             {% if  attempt.state == 1 %}
-                                <p class="text-info">(Попытка просмотрена)</p>
+                                <p class="text-info">(Есть недочёты)</p>
                             {% else %}
-                                {% if  attempt.state == 3 %}
-                                    <p class="text-error">(Попытка отклонена)</p>
+                                {% if  attempt.state == 2 %}
+                                    <p class="text-error">(Принято оформление)</p>
                                 {% else %}
-                                    <p class="text-success">(Попытка принята)</p>
+                                    {% if  attempt.state == 3 %}
+                                        <p class="text-success">(Задание защищено)</p>
+                                    {% else %}
+                                        <p class="text-success">(Задание отправлено на проверку)</p>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         {% endif %}
                     </td>
                     <td>
-                        <b>{{ attempt.comment.first.author.user.first_name }}: </b>
-                        {{ attempt.comment.first.text }}
+                        Оценка: {{mark.m_value}}
                     </td>
                     <td>
-                        <a href={{ attempt.link }}  rel="external">Ссылка на попытку</a>
-                        <script type="text/javascript">
-                            $('a[rel=external]').attr('target', '_blank');
-                        </script>
+                        {% if  mark.state == 0  %}
+                            <a href="\mark\needCheck\{{mark.pk}}\" class="btn btn-primary">Отправить на проверку</a>
+                        {% endif %}
+                        {% if  mark.state == 1  %}
+                            <a href="\mark\needCheck\{{mark.pk}}\" class="btn btn-primary">Отправить на проверку</a>
+                        {% endif %}
+                         {% if  mark.state == 2  %}
+                            <a href="" class="btn btn-danger">Отправить на проверку</a>
+                        {% endif %}
+                        {% if  mark.state == 3  %}
+                            <a href="" class="btn btn-danger">Отправить на проверку</a>
+                        {% endif %}
+                        {% if  mark.state == 4  %}
+                            <a href="" class="btn btn-danger">Отправить на проверку</a>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="\mark\detail\{{mark.pk}}\" class="btn btn-default">Обсуждение</a>
                     </td>
                     <td>
-                        <a href="../../attempt/{{ attempt.id }}/" class="btn btn-primary" rel="button">Обсуждение</a>
+                        <b>{{ mark.comment.first.author.user.first_name }}: </b>
+                        {{ mark.comment.first.text }}
                     </td>
                 </tr>
             {% endfor %}
