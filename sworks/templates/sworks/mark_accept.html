@@ -24,11 +24,7 @@
         <br><br>
     {% else %}
         <br><br>
-    {% if user.is_staff%}
-      <a href="/mark/list/" class="btn btn-primary btn-lg" rel="button"> << Назад</a>
-    {% else %}
-         <a href="/personal/" class="btn btn-primary btn-lg" rel="button"> << Назад</a>
-    {% endif %}
+      <a href="/personal/" class="btn btn-primary btn-lg" rel="button"> << Личный кабинет</a>
     {% endif %}
 {% endblock %}
 

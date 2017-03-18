@@ -22,10 +22,9 @@ urlpatterns = [
     # попросить оценки
     url(r'^mark/needCheck/(?P<mark_id>[0-9]+)/$', sworks.views.mark_needCheck),
     url(r'^mark/list/$', sworks.views.mark_list),
+    url(r'^mark/list_accepted/$', sworks.views.mark_list_accepted),
     # принять попытку
     url(r'^mark/mark/(?P<mark_id>[0-9]+)/(?P<state_val>[0-9]+)/$', sworks.views.mark),
-    # отклонить попытку
-    url(r'^attempt/drop/(?P<attempt_id>[0-9]+)/$', sworks.views.drop),
     # личный кабинет
     url(r'^personal/$', sworks.views.personal),
     # получить задание

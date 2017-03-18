@@ -24,6 +24,11 @@ class AttemptForm(forms.Form):
                            widget=forms.Textarea(attrs={'rows': 4, 'cols': 40, 'placeholder': 'Ссылка'}), label="")
 
 
+# форма для просмотра своей попытки
+class FloatForm(forms.Form):
+    val = forms.FloatField()
+
+
 # форма добавления задания
 class AddTaskForm(forms.Form):
     # имя задания
@@ -62,11 +67,12 @@ class RegisterForm(forms.Form):
         widget=forms.PasswordInput(attrs={'rows': 1, 'cols': 20, 'placeholder': 'qwerty123'}),
         label="Повторите пароль")
     # класс
-    github_rep = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': 'https://github.com/aoklyunin/csi-students'}),
-                                     label="Ссылка на github репозиторий")
+    github_rep = forms.CharField(widget=forms.Textarea(
+        attrs={'rows': 1, 'cols': 20, 'placeholder': 'https://github.com/aoklyunin/csi-students'}),
+                                 label="Ссылка на github репозиторий")
     # группа
     st_group = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': 'P4135'}),
-                                     label="номер группы")
+                               label="номер группы")
     # почта
     mail = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': 'example@gmail.com'}),
                            label="Адрес эл. почты")

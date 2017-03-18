@@ -48,16 +48,13 @@
 
         <div class="navbar-collapse collapse" id="main-menu">
             <ul class="nav navbar-nav">
-                {% if user.is_authenticated%}
-                <li><a href="/olymp/list/" class="btn">Олимпиады</a></li>
-                {% if request.user.is_staff %}
-                <li><a href="/problem/list/" class="btn">Задания</a></li>
+                {% if user.is_staff%}
+                <li><a href="/addTask/" class="btn">Добавить задание</a></li>
+                <li><a href="/mark/list/" class="btn">Проверка оформления</a></li>
+                <li><a href="/mark/list_accepted/" class="btn">Оценка задания</a></li>
+                {% else %}
+                <li><a href="/personal/" class="btn">Личный кабинет</a></li>
                 {% endif %}
-                {% ifnotequal isSpec 0%}
-                <li><a href="/work/list/" class="btn">Работы</a></li>
-                <li><a href="/work/load/" class="btn">Загрузить</a></li>
-                {% endifnotequal %}
-                {%endif%}
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

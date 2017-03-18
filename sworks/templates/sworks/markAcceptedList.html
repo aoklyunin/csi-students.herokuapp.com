@@ -30,7 +30,6 @@
         <th>Фамилия Имя</th>
         <th>Задание</th>
         <th>Ссылка</th>
-        <th>Комментарий</th>
         <th>Проверить</th>
 
     </tr>
@@ -51,17 +50,12 @@
                 </script>
 
             </td>
-
             <td>
-                <div>
-                   <b>{{ mark.comment.last.author.user.first_name }}: </b>
-                        {{ mark.comment.last.text }}
-                </div>
-            </td>
-            <td>
-                <a href="/mark/detail/{{ mark.id }}/" class="btn btn-default" rel="button">Обсуждение</a>
-                <a href="/mark/mark/{{ mark.id }}/2/" class="btn btn-success" rel="button">Принять</a>
-                <a href="/mark/mark/{{ mark.id }}/1/" class="btn btn-warning" rel="button">Слить</a>
+                <form action="/mark/mark/{{ mark.id }}/3/" method="post">
+                     {% csrf_token %}
+                     {{ form.val }}
+                     <input type="submit" value="Оценить" class="btn btn-success">
+                </form>
             </td>
         </tr>
     {% endfor %}

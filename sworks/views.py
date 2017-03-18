@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from sworks.forms import LoginForm, AttemptForm, AddTaskForm, AddAttemptForm, MarkForm
+from sworks.forms import LoginForm, AttemptForm, AddTaskForm, AddAttemptForm, MarkForm, FloatForm
 from .models import Student, Task, AttemptComment, Mark
 
 
@@ -118,32 +118,53 @@ def mark_needCheck(request, mark_id):
     return HttpResponseRedirect('/personal/')
 
 
-# принять попытку по id
-def success(request, attempt_id):
-    # attempt = Attempt.objects.get(id=attempt_id)
-    # attempt.state = 2
-    # attempt.save()
-    return HttpResponseRedirect('../../../attemptList/')
-
-
-# отклонить попытку
-def drop(request, attempt_id):
-    # attempt = Attempt.objects.get(id=attempt_id)
-    #  attempt.state = 3
-    # attempt.save()
-    return HttpResponseRedirect('../../../attemptList/')
-
-
 def mark_list(request):
     if request.user.is_staff:
         mark_list = Mark.objects.order_by('-add_date').filter(state=4)
         template = 'sworks/markList.html'
         context = {
-            "markList": mark_list,
+            "mark_list": mark_list,
         }
         return render(request, template, context)
     else:
         return HttpResponseRedirect('/')
 
+
 def mark(request, state_val, mark_id):
-    return None
+    print(state_val)
+    if request.user.is_staff:
+        print("staff")
+        # ищем попытку с заданным id
+        mark = Mark.objects.get(id=mark_id)
+        if state_val == "1" or state_val == "2":
+            mark.state = state_val
+            mark.save()
+            return HttpResponseRedirect('/mark/list/')
+        if state_val == "3":
+            print(request.POST)
+            if request.method == "POST":
+                form = FloatForm(request.POST)
+                print(form)
+                if form.is_valid():
+                    # текст комментария
+                    val = form.cleaned_data['val']
+                    print(val)
+                    mark.m_value = val
+                    mark.state = state_val
+                    mark.save()
+            return HttpResponseRedirect('/mark/list_accepted/')
+
+    return HttpResponseRedirect('/')
+
+
+def mark_list_accepted(request):
+    if request.user.is_staff:
+        mark_list = Mark.objects.order_by('-add_date').filter(state=2)
+        template = 'sworks/markAcceptedList.html'
+        context = {
+            "mark_list": mark_list,
+            'form': FloatForm(initial = {'val':'0.0'}),
+        }
+        return render(request, template, context)
+    else:
+        return HttpResponseRedirect('/')

@@ -18,7 +18,7 @@ class Student(models.Model):
     st_group = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.user.first_name + ' ' + self.user.last_name + '(' + str(self.st_klass) + '.' + str(
+        return self.user.first_name + ' ' + self.user.last_name + '(' + str(
             self.st_group) + ')'
 
     def __unicode__(self):
@@ -28,7 +28,7 @@ class Student(models.Model):
 # комментарий к попытке
 class AttemptComment(models.Model):
     class Meta:
-        ordering = ['-datetime']
+        ordering = ['datetime']
 
     # прочитан или нет
     isReaded = models.BooleanField(default=False)

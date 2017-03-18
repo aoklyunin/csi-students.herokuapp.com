@@ -30,20 +30,18 @@
                         {{ mark.task.task_name }}<br>
                         {% if  mark.state == 0 %}
                             <p class="muted">(Задание не отправлено на проверку)</p>
-                        {% else %}
-                            {% if  attempt.state == 1 %}
-                                <p class="text-info">(Есть недочёты)</p>
-                            {% else %}
-                                {% if  attempt.state == 2 %}
-                                    <p class="text-error">(Принято оформление)</p>
-                                {% else %}
-                                    {% if  attempt.state == 3 %}
-                                        <p class="text-success">(Задание защищено)</p>
-                                    {% else %}
-                                        <p class="text-success">(Задание отправлено на проверку)</p>
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
+                         {% endif %}
+                        {% if  mark.state == 1 %}
+                            <p class="text-error">(Есть недочёты)</p>
+                         {% endif %}
+                         {% if  mark.state == 2 %}
+                            <p class="text-success">(Принято оформление)</p>
+                        {% endif %}
+                        {% if  mark.state == 3 %}
+                            <p class="text-success">(Задание защищено)</p>
+                        {% endif %}
+                        {% if  mark.state == 4 %}
+                            <p class="text-primary">(Задание отправлено на проверку)</p>
                         {% endif %}
                     </td>
                     <td>
@@ -71,8 +69,8 @@
                         <a href="\mark\detail\{{mark.pk}}\" class="btn btn-default">Обсуждение</a>
                     </td>
                     <td>
-                        <b>{{ mark.comment.first.author.user.first_name }}: </b>
-                        {{ mark.comment.first.text }}
+                        <b>{{ mark.comment.last.author.user.first_name }}: </b>
+                        {{ mark.comment.last.text }}
                     </td>
                 </tr>
             {% endfor %}
