@@ -33,7 +33,7 @@ class AttemptComment(models.Model):
     # прочитан или нет
     isReaded = models.BooleanField(default=False)
     # текст комментария
-    text = models.CharField(max_length=2000)
+    text = models.CharField(max_length=100000)
     # автор комментария
     author = models.ForeignKey(Student)
     # дата написания
