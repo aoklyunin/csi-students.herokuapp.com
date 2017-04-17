@@ -28,7 +28,7 @@ class Student(models.Model):
 # комментарий к попытке
 class AttemptComment(models.Model):
     class Meta:
-        ordering = ['datetime']
+        ordering = ['-datetime']
 
     # прочитан или нет
     isReaded = models.BooleanField(default=False)
@@ -38,6 +38,7 @@ class AttemptComment(models.Model):
     author = models.ForeignKey(Student)
     # дата написания
     datetime = models.DateTimeField(default=datetime.datetime.now())
+
 
     def __str__(self):
         return self.text
