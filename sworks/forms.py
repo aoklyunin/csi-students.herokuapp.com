@@ -11,7 +11,7 @@ class AddAttemptForm(forms.Form):
     task = forms.ModelChoiceField(queryset=Task.objects.all(), empty_label="Выберите задание", label="")
     # первый комментарий
     comment = forms.CharField(max_length=100000,
-                              widget=forms.Textarea(attrs={'rows': 4, 'cols': 40, 'placeholder': 'Комментарий'}),
+                              widget=forms.Textarea(attrs={'rows': 4, 'cols': 90, 'placeholder': 'Комментарий'}),
                               label="")
     # ссылка на попытку
     link = forms.CharField(max_length=200,
@@ -20,7 +20,7 @@ class AddAttemptForm(forms.Form):
 
 # форма для просмотра своей попытки
 class AttemptForm(forms.Form):
-    text = forms.CharField(max_length=200,
+    text = forms.CharField(max_length=100000,
                            widget=forms.Textarea(attrs={'rows': 4, 'cols': 40, 'placeholder': 'Ссылка'}), label="")
 
 
