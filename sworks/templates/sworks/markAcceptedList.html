@@ -50,6 +50,16 @@
                 </script>
 
             </td>
+            <a href="{{ mark.student.github_rep }}"  rel="external">Гитхаб</a>
+                <script type="text/javascript">
+                    $('a[rel=external]').attr('target', '_blank');
+                </script>
+
+            </td>
+
+           
+            <td>
+                <a href="/mark/detail/{{ mark.id }}/" class="btn btn-default" rel="button">Обсуждение</a>
             <td>
                 <form action="/mark/mark/{{ mark.id }}/3/" method="post">
                      {% csrf_token %}
