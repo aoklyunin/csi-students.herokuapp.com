@@ -33,14 +33,12 @@
 {% endblock %}
 
 {% block sub_content %}
-
+ {% if user.is_authenticated %}
         {% if user.is_staff %}
-            <p><a class="btn btn-primary btn-lg" role="button" href="\mark\list\">Список заданий на проверку»</a></p>
-            <p><a class="btn btn-primary btn-lg" role="button" href="\mark\list_accepted\">Оценить задание»</a></p>
-            <p><a class="btn btn-success btn-lg" role="button" href="\addTask\">Добавить задание»</a>
+
         {% else %}
             <p><a class="btn btn-primary btn-lg" role="button" href="personal\">Личный кабинет »</a></p>
         {%  endif %}
-
+ {%  endif %}
 {% endblock %}
 

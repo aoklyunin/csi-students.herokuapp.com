@@ -168,3 +168,15 @@ def mark_list_accepted(request):
         return render(request, template, context)
     else:
         return HttpResponseRedirect('/')
+
+
+def mark_list_marked(request):
+    if request.user.is_staff:
+        mark_list = Mark.objects.order_by('student').filter(state=3)
+        template = 'sworks/markMarkedList.html'
+        context = {
+            "mark_list": mark_list,
+        }
+        return render(request, template, context)
+    else:
+        return HttpResponseRedirect('/')
