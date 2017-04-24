@@ -20,16 +20,15 @@ urlpatterns = [
     # просмотр задания
     url(r'^mark/detail/(?P<mark_id>[0-9]+)/$', sworks.views.mark_detail),
     # попросить оценки
-    url(r'^mark/needCheck/(?P<mark_id>[0-9]+)/$', sworks.views.mark_needCheck),
-    url(r'^mark/list/$', sworks.views.mark_list),
+    url(r'^mark/needCheck/(?P<mark_id>[0-9]+)/$', sworks.views.markMakeNeedCheck),
+    url(r'^mark/list/$', sworks.views.markNeedCheckList),
     url(r'^mark/list_accepted/$', sworks.views.mark_list_accepted),
+    url(r'^mark/list_not_accepted/$', sworks.views.mark_list_not_accepted),
     url(r'^mark/list_marked/$', sworks.views.mark_list_marked),
     # принять попытку
     url(r'^mark/mark/(?P<mark_id>[0-9]+)/(?P<state_val>[0-9]+)/$', sworks.views.mark),
     # личный кабинет
     url(r'^personal/$', sworks.views.personal),
-    # получить задание
-    url(r'^getTasks/$', sworks.views.getTasks),
     # стартовая страница
     url(r'^', sworks.auth.index, name='index'),
 

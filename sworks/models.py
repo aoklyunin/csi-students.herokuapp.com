@@ -6,7 +6,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.utils import timezone
 
 # класс студента
 class Student(models.Model):
@@ -33,11 +33,11 @@ class AttemptComment(models.Model):
     # прочитан или нет
     isReaded = models.BooleanField(default=False)
     # текст комментария
-    text = models.CharField(max_length=100000)
+    text = models.TextField(max_length=100000)
     # автор комментария
     author = models.ForeignKey(Student)
     # дата написания
-    datetime = models.DateTimeField(default=datetime.datetime.now())
+    datetime = models.DateTimeField(default=timezone.now())
 
 
     def __str__(self):
@@ -59,7 +59,7 @@ class Task(models.Model):
     def __unicode__(self):
         return self.task_name
 
-# оценка
+# попытка
 class Mark(models.Model):
     # задание
     task = models.ForeignKey(Task)

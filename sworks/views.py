@@ -10,59 +10,65 @@ from django.views.decorators.csrf import csrf_exempt
 from sworks.forms import LoginForm, AttemptForm, AddTaskForm, AddAttemptForm, MarkForm, FloatForm
 from .models import Student, Task, AttemptComment, Mark
 
+# состояние не принятой задачи
+STATE_NOT_SENDED_TO_CHECKING = 0
+# состояние не принятого офрмления
+STATE_NOT_ACCEPTED = 1
+# состояние принятого оформления
+STATE_ACCEPTED = 2
+# состояние защищённой задачи
+STATE_MARKED = 3
+# состояние отправленной на проверку задачи
+STATE_SENDED_TO_CHECKING = 4
+
 
 # добавление задания
 def addTask(request):
+    # если пользователь - администратор
     if request.user.is_staff:
+        # если POST-запрос
         if request.method == "POST":
+            # создаём форму на основе данных, полученных из POST-запроса
             form = AddTaskForm(request.POST)
+            # если форма заполнена корректно
             if form.is_valid():
+                # название задания
                 task_name = form.cleaned_data['task_name']
+                # дата публикации
                 pub_date = form.cleaned_data['pub_date']
-
+                # создаём объект задания
                 t = Task.objects.create(task_name=task_name,
                                         pub_date=pub_date,
                                         )
+                # сохраняем
                 t.save()
+                # выводим сообщение об удачном создании задании
                 messages.success(request, "Задание добавлено")
 
-        data = {
+        # данные для начального заполнения формы
+        initial_data = {
             'task_name': '',
             'pub_date': datetime.date.today(),
             'ins_form': LoginForm()
         }
-
+        # выводим страницу создания задания
         return render(request, "sworks/addTask.html", {
-            "task_form": AddTaskForm(initial=data),
+            "task_form": AddTaskForm(initial=initial_data),
             "login_form": LoginForm(),
             "user": request.user
         })
     else:
+        # перенаправляем на главную страницу
         return HttpResponseRedirect('/')
 
 
-# организация обработки внешнего post-запроса
-# для этого сделан декоратор @csrf_exempt
-@csrf_exempt
-def getTasks(request):
-    if request.method == "POST":
-        if request.POST["begin_date"] or request.POST["end_date"]:
-            pickup_records = []
-            for task in Task.objects.all():
-                record = {"pub_date": task.pub_date,
-                          "task_name": task.task_name}
-                pickup_records.append(record)
-            return JsonResponse({'tasks': pickup_records}, safe=False)
-        return JsonResponse({'error': 'нет параметров дат'}, safe=False)
-    return JsonResponse({'error': 'не тот запрос'}, safe=False)
-
-
-# личный кабинет
+# личный кабинет студентов
 def personal(request):
     # по пользователю получаем имя
     student = Student.objects.get(user=request.user)
     # список попыток, созданных текущем пользователем
     mark_list = Mark.objects.filter(student=student).order_by('task')
+    # считаем сумму оценок
     sum = 0
     for mark in mark_list:
         sum += mark.m_value
@@ -72,13 +78,6 @@ def personal(request):
         'mark_list': mark_list,
         'sum': sum,
     })
-
-
-# классы ссылки
-class hrefClass():
-    def __init__(self, href, text):
-        self.href = href
-        self.text = text
 
 
 # просмотр попытки по id
@@ -99,6 +98,7 @@ def mark_detail(request, mark_id):
             comment_object.save()
             mark.comment.add(comment_object)
     form = AttemptForm()
+
     return render(request, "sworks/mark_detail.html", {
         "mark": mark,
         "text_form": form,
@@ -107,7 +107,8 @@ def mark_detail(request, mark_id):
     })
 
 
-def mark_needCheck(request, mark_id):
+# отправить оценку на проверку
+def markMakeNeedCheck(request, mark_id):
     # ищем попытку с заданным id
     mark = Mark.objects.get(id=mark_id)
     # студент, написавший комментарий
@@ -117,8 +118,8 @@ def mark_needCheck(request, mark_id):
         mark.save()
     return HttpResponseRedirect('/personal/')
 
-
-def mark_list(request):
+# список заданий требующих проверку оформления
+def markNeedCheckList(request):
     if request.user.is_staff:
         mark_list = Mark.objects.order_by('-add_date').filter(state=4)
         template = 'sworks/markList.html'
@@ -163,7 +164,20 @@ def mark_list_accepted(request):
         template = 'sworks/markAcceptedList.html'
         context = {
             "mark_list": mark_list,
-            'form': FloatForm(initial = {'val':'0.0'}),
+            'form': FloatForm(initial={'val': '0.0'}),
+        }
+        return render(request, template, context)
+    else:
+        return HttpResponseRedirect('/')
+
+
+def mark_list_not_accepted(request):
+    if request.user.is_staff:
+        mark_list = Mark.objects.order_by('-add_date').filter(state=1)
+        template = 'sworks/markNotAcceptedList.html'
+        context = {
+            "mark_list": mark_list,
+            'form': FloatForm(initial={'val': '0.0'}),
         }
         return render(request, template, context)
     else:

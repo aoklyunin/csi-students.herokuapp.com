@@ -56,7 +56,9 @@
                     </td>
                     <td>
                           <b>{{ comment.author.user.first_name }}: </b>
-                        {{ comment.text }}
+                        <p align="justify">
+                        {{ comment.text |linebreaks}}
+                        </p>
                     </td>
                 </tr>
             {% endfor %}

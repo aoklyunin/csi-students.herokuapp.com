@@ -56,11 +56,11 @@
                    <b>{{ mark.comment.first.author.user.first_name }}: </b>
                         {{ mark.comment.first.text |linebreaks}}
                 </div>
-            </td>c
+            </td>
             <td>
                 <a href="/mark/detail/{{ mark.id }}/" class="btn btn-default" rel="button">Обсуждение</a>
                 <a href="/mark/mark/{{ mark.id }}/2/" class="btn btn-success" rel="button">Принять</a>
-                <a href="/mark/mark/{{ mark.id }}/1/" class="btn btn-warning" rel="button">Слить</a>
+
             </td>
         </tr>
     {% endfor %}
