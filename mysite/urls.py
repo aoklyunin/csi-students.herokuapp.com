@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^mark/list_not_accepted/$', sworks.views.mark_list_not_accepted),
     url(r'^mark/list_marked/$', sworks.views.mark_list_marked),
     # принять попытку
-    url(r'^mark/mark/(?P<mark_id>[0-9]+)/(?P<state_val>[0-9]+)/$', sworks.views.mark),
+    url(r'^mark/mark/(?P<mark_id>[0-9]+)/(?P<state_val>[0-9]+)/$', sworks.views.doMark),
     # личный кабинет
     url(r'^personal/$', sworks.views.personal),
     # стартовая страница

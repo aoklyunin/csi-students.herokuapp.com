@@ -122,7 +122,7 @@ def markMakeNeedCheck(request, mark_id):
 def markNeedCheckList(request):
     if request.user.is_staff:
         mark_list = Mark.objects.order_by('-add_date').filter(state=4)
-        template = 'sworks/markList.html'
+        template = 'sworks/markNeedCheckList.html'
         context = {
             "mark_list": mark_list,
         }
@@ -130,8 +130,8 @@ def markNeedCheckList(request):
     else:
         return HttpResponseRedirect('/')
 
-
-def mark(request, state_val, mark_id):
+# оценить работу
+def doMark(request, state_val, mark_id):
     print(state_val)
     if request.user.is_staff:
         print("staff")
@@ -157,7 +157,7 @@ def mark(request, state_val, mark_id):
 
     return HttpResponseRedirect('/')
 
-
+# список работ с принятым оформлением
 def mark_list_accepted(request):
     if request.user.is_staff:
         mark_list = Mark.objects.order_by('-add_date').filter(state=2)
@@ -170,7 +170,7 @@ def mark_list_accepted(request):
     else:
         return HttpResponseRedirect('/')
 
-
+# список работ с непринятым оформлением
 def mark_list_not_accepted(request):
     if request.user.is_staff:
         mark_list = Mark.objects.order_by('-add_date').filter(state=1)
@@ -183,7 +183,7 @@ def mark_list_not_accepted(request):
     else:
         return HttpResponseRedirect('/')
 
-
+# список оцененных работ
 def mark_list_marked(request):
     if request.user.is_staff:
         mark_list = Mark.objects.order_by('student').filter(state=3)
