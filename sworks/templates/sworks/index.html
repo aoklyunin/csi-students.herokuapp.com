@@ -13,32 +13,23 @@
 {% block title %}Информатика{% endblock %}
 
 {% block content %}
-   <h1>Добро пожаловать</h1>
+   <h1>   {{ it.caption}}</h1>
     {% if user.is_authenticated == False %}
         <p>Для доступа к системе Вам надо войти или зарегистрироваться</p>
     {% else %}
         <p>О выполнении Ваших заданий можно написать в личном кабинете</p>
     {% endif %}
-
-    Репозиторий, от которого нужно сделать fork, находится по адресу: https://github.com/aoklyunin/csi-students
-    <br>
-    Почта:
-    <ul>
-        <li><b> aoklyunin@gmail.com</b> - Клюнин Алексей Олегович</li>
-        <li><b> i.petranevsky @ gmail.com</b> - Петраневский Игорь Владимирович</li>
-
-    </ul>
-  Для защиты работы необходимо сначала получить зачёт по оформлению отчёта и схем моделирования
-
+    {{ it.text |linebreaks}}
 {% endblock %}
 
 {% block sub_content %}
- {% if user.is_authenticated %}
+    {{ it.subText |linebreaks }}
+    {% if user.is_authenticated %}
         {% if user.is_staff %}
 
         {% else %}
             <p><a class="btn btn-primary btn-lg" role="button" href="personal\">Личный кабинет »</a></p>
         {%  endif %}
- {%  endif %}
+    {%  endif %}
 {% endblock %}
 

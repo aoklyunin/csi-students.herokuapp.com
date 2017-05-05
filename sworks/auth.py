@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from sworks.forms import RegisterForm, LoginForm
-from sworks.models import Student, Task, Mark
+from sworks.models import Student, Task, Mark, InfoText
 
 
 # метод регистрации
@@ -117,8 +117,10 @@ def index(request):
             else:
                 messages.error(request, "пара логин-пароль не найдена")
     template = 'sworks/index.html'
+    it = InfoText.objects.get(pageName="index")
     context = {
         "user": request.user,
         "login_form": LoginForm(),
+        "it": it
     }
     return render(request, template, context)

@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+
 # класс студента
 class Student(models.Model):
     # пользователь
@@ -39,12 +40,12 @@ class AttemptComment(models.Model):
     # дата написания
     datetime = models.DateTimeField(default=timezone.now())
 
-
     def __str__(self):
         return self.text
 
     def __unicode__(self):
         return self.text
+
 
 # задание
 class Task(models.Model):
@@ -58,6 +59,7 @@ class Task(models.Model):
 
     def __unicode__(self):
         return self.task_name
+
 
 # попытка
 class Mark(models.Model):
@@ -81,6 +83,12 @@ class Mark(models.Model):
         return self.task.task_name + '(' + str(self.add_date) + ' ' + str(self.m_value)
 
 
+class InfoText(models.Model):
+    text = models.TextField(max_length=100000, null=True, blank=True)
+    subText = models.TextField(max_length=100000, null=True, blank=True)
+    appendText = models.TextField(max_length=100000, null=True, blank=True)
+    caption = models.TextField(max_length=100000, null=True, blank=True)
+    pageName = models.TextField(max_length=100000, null=True, blank=True)
 
-
-
+    def __str__(self):
+        return self.pageName
